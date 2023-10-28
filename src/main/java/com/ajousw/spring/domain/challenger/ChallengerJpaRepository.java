@@ -6,5 +6,5 @@ import java.util.List;
 
 
 public interface ChallengerJpaRepository extends JpaRepository<Challenger, Long> {
-    List<Challenger> findByMemberId(Long memberId);
+    List<Challenger> findByBoardOwnerMemberId(Long memberId);
 }

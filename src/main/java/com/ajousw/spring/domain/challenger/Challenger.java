@@ -23,7 +23,10 @@ public class Challenger extends BaseTimeEntity {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    private Long memberId;
+    // Board owner의 memberId
+    private Long boardOwnerMemberId;
+
+    private Long challengerWriterId;
 
     private String message;
 
@@ -32,10 +35,11 @@ public class Challenger extends BaseTimeEntity {
     private Boolean isChecked;
 
     @Builder
-    public Challenger(Long id, Board board, Long memberId, String message, String email) {
+    public Challenger(Long id, Board board, Long boardOwnerMemberId, Long challengerWriterId, String message, String email) {
         this.id = id;
         this.board = board;
-        this.memberId = memberId;
+        this.boardOwnerMemberId = boardOwnerMemberId;
+        this.challengerWriterId = challengerWriterId;
         this.message = message;
         this.email = email;
         this.isChecked = false;

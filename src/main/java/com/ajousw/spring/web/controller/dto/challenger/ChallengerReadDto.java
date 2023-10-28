@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChallengerReadDto {
-    Long memberId;
+    Long boardOwnerMemberId;
 }

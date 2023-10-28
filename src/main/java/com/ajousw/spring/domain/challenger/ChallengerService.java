@@ -2,6 +2,7 @@ package com.ajousw.spring.domain.challenger;
 
 import com.ajousw.spring.domain.board.Board;
 import com.ajousw.spring.domain.board.BoardJpaRepository;
+import com.ajousw.spring.domain.member.MemberService;
 import com.ajousw.spring.domain.member.repository.MemberJpaRepository;
 import com.ajousw.spring.web.controller.dto.challenger.ChallengerCreateDto;
 import com.ajousw.spring.web.controller.dto.challenger.ChallengerDto;
@@ -21,6 +22,7 @@ public class ChallengerService {
     private final ChallengerJpaRepository challengerJpaRepository;
     private final BoardJpaRepository boardJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
+    private final MemberService memberService;
 
     public void createChallenger(ChallengerCreateDto challengerCreateDto, String userEmail) {
         Board foundBoard = boardJpaRepository.findById(challengerCreateDto.getBoardId())
@@ -32,7 +34,8 @@ public class ChallengerService {
 
         Challenger newChallenger = Challenger.builder()
                 .board(foundBoard)
-                .memberId(foundBoard.getMember().getId())
+                .boardOwnerMemberId(foundBoard.getMember().getId())
+                .challengerWriterId(memberService.getMember(userEmail).getId())
                 .message(challengerCreateDto.getMessage())
                 .email(userEmail)
                 .build();
@@ -41,7 +44,7 @@ public class ChallengerService {
     }
 
     public List<ChallengerDto> getChallengers(Long memberId) {
-        List<Challenger> challengers = challengerJpaRepository.findByMemberId(memberId);
+        List<Challenger> challengers = challengerJpaRepository.findByBoardOwnerMemberId(memberId);
 
         return challengers.stream().map((challenger) ->
                 createChallengerDto(challenger)
