@@ -3,7 +3,9 @@ package com.ajousw.spring.domain.board;
 import com.ajousw.spring.domain.comment.CommentJpaRepository;
 import com.ajousw.spring.domain.member.repository.Member;
 import com.ajousw.spring.domain.member.repository.MemberJpaRepository;
+import com.ajousw.spring.domain.tag.TagService;
 import com.ajousw.spring.web.controller.dto.board.*;
+import com.ajousw.spring.web.controller.dto.tag.TagDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ public class BoardService {
     private final MemberJpaRepository memberJpaRepository;
     private final BoardEntityMangerRepository boardEntityMangerRepository;
     private final CommentJpaRepository commentJpaRepository;
+    private TagService tagService;
 
     public void createBoard(BoardCreateDto boardCreateDto) {
         Member foundMember = memberJpaRepository.findById(boardCreateDto.getMemberId())
@@ -43,6 +46,11 @@ public class BoardService {
         foundMember.addBoard(newBoard);
 
         boardJpaRepository.save(newBoard);
+
+
+        tagService.addOrUpdateTags(convertToTagDto(concatTag));
+
+
     }
 
     public List<BoardDto> getBoards() {
@@ -122,5 +130,10 @@ public class BoardService {
         if (!email.equals(userEmail)) {
             throw new IllegalArgumentException("게시글은 본인만 수정할 수 있습니다.");
         }
+    }
+
+    private TagDto convertToTagDto(String concatTag) {
+        List<String> tags = Arrays.asList(concatTag.split(","));
+        return new TagDto(tags);
     }
 }
