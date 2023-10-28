@@ -22,7 +22,7 @@ public class BoardEntityMangerRepository {
                 query += "AND ";
             }
         }
-
+        query += " order by b.isFinished asc, b.id desc";
         log.info("Query {}", query);
 
         return entityManager.createQuery(query, Board.class).getResultList();

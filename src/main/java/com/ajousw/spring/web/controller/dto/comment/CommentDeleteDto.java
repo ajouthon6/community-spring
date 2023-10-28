@@ -1,4 +1,4 @@
-package com.ajousw.spring.web.controller.dto;
+package com.ajousw.spring.web.controller.dto.comment;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CommentUpdateDto {
+public class CommentDeleteDto {
     private Long commentId;
-    private String commentBody;
 }

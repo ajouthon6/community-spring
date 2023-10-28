@@ -2,10 +2,10 @@ package com.ajousw.spring.domain.comment;
 
 import com.ajousw.spring.domain.board.Board;
 import com.ajousw.spring.domain.board.BoardJpaRepository;
-import com.ajousw.spring.web.controller.dto.CommentCreateDto;
-import com.ajousw.spring.web.controller.dto.CommentDeleteDto;
-import com.ajousw.spring.web.controller.dto.CommentDto;
-import com.ajousw.spring.web.controller.dto.CommentUpdateDto;
+import com.ajousw.spring.web.controller.dto.comment.CommentCreateDto;
+import com.ajousw.spring.web.controller.dto.comment.CommentDeleteDto;
+import com.ajousw.spring.web.controller.dto.comment.CommentDto;
+import com.ajousw.spring.web.controller.dto.comment.CommentUpdateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -75,7 +75,7 @@ public class CommentService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글 ID 입니다."));
 
         isOwner(userEmail, foundComment);
-        
+
         commentJpaRepository.delete(foundComment);
     }
 

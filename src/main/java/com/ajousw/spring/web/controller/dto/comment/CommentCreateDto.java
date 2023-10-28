@@ -1,4 +1,4 @@
-package com.ajousw.spring.web.controller.dto;
+package com.ajousw.spring.web.controller.dto.comment;
 
 import com.ajousw.spring.domain.member.repository.Member;
 import jakarta.validation.constraints.NotEmpty;
