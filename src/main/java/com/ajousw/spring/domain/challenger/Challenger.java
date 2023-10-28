@@ -1,5 +1,6 @@
 package com.ajousw.spring.domain.challenger;
 
+
 import com.ajousw.spring.domain.board.Board;
 import com.ajousw.spring.domain.member.repository.BaseTimeEntity;
 import jakarta.persistence.*;
