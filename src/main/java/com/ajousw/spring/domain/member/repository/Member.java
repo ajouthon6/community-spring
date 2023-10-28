@@ -4,14 +4,13 @@ import com.ajousw.spring.domain.board.Board;
 import com.ajousw.spring.domain.member.enums.LoginType;
 import com.ajousw.spring.domain.member.enums.Role;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 
 @Entity
@@ -27,8 +26,8 @@ public class Member extends BaseTimeEntity {
     @Column(unique = true, length = 50)
     private String email;
 
-    @OneToMany(mappedBy = "board")
-    private List<Member> members = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Board> boards = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
@@ -54,4 +53,10 @@ public class Member extends BaseTimeEntity {
     public void updateLastLoginTime() {
         this.lastLoginTime = LocalDateTime.now();
     }
+
+    public void addBoard(Board newBoard) {
+        boards.add(newBoard);
+    }
+
+
 }
