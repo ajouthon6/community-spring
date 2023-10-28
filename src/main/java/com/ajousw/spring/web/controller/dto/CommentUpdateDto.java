@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentUpdateDto {
     private Long commentId;
+    private Long memberId;
     private String commentBody;
 }

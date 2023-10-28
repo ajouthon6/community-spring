@@ -2,6 +2,8 @@ package com.ajousw.spring.domain.comment;
 
 import com.ajousw.spring.domain.board.Board;
 import com.ajousw.spring.domain.board.BoardJpaRepository;
+import com.ajousw.spring.domain.member.repository.Member;
+import com.ajousw.spring.domain.member.repository.MemberJpaRepository;
 import com.ajousw.spring.web.controller.dto.CommentCreateDto;
 import com.ajousw.spring.web.controller.dto.CommentDeleteDto;
 import com.ajousw.spring.web.controller.dto.CommentDto;
@@ -21,9 +23,10 @@ import java.util.stream.Collectors;
 public class CommentService {
     private final BoardJpaRepository boardJpaRepository;
     private final CommentJpaRepository commentJpaRepository;
+    private final MemberJpaRepository memberJpaRepository;
 
-    private static void isOwner(String userEmail, Comment foundComment) {
-        String email = foundComment.getMember().getEmail();
+
+    private void isOwner(String userEmail, String email) {
         if (!email.equals(userEmail)) {
             throw new IllegalArgumentException("댓글은 본인만 수정 및 삭제할 수 있습니다.");
         }
@@ -33,9 +36,12 @@ public class CommentService {
         Board foundBoard = boardJpaRepository.findById(commentCreateDto.getBoardId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 ID 입니다."));
 
+        Member foundMember = memberJpaRepository.findById(commentCreateDto.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저 ID 입니다."));
+
         Comment newComment = Comment.builder()
                 .commentBody(commentCreateDto.getCommentBody())
-                .member(commentCreateDto.getMember())
+                .member(foundMember)
                 .board(foundBoard)
                 .build();
 
@@ -65,7 +71,8 @@ public class CommentService {
         Comment foundComment = commentJpaRepository.findById(commentUpdateDto.getCommentId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글 ID 입니다."));
 
-        isOwner(userEmail, foundComment);
+        String email = foundComment.getMember().getEmail();
+        isOwner(userEmail, email);
 
         foundComment.updateCommentBody(commentUpdateDto.getCommentBody());
     }
@@ -74,8 +81,9 @@ public class CommentService {
         Comment foundComment = commentJpaRepository.findById(deleteDto.getCommentId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글 ID 입니다."));
 
-        isOwner(userEmail, foundComment);
-        
+        String email = foundComment.getMember().getEmail();
+        isOwner(userEmail, email);
+
         commentJpaRepository.delete(foundComment);
     }
 

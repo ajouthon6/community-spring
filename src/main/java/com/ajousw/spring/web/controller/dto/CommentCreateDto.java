@@ -1,6 +1,5 @@
 package com.ajousw.spring.web.controller.dto;
 
-import com.ajousw.spring.domain.member.repository.Member;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,7 +13,7 @@ public class CommentCreateDto {
 
     private Long boardId;
 
-    private Member member;
+    private Long memberId;
 
     @NotEmpty
     private String commentBody;

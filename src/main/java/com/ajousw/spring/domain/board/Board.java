@@ -31,7 +31,7 @@ public class Board extends BaseTimeEntity {
     @Column(length = 255)
     private String title;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
     @Lob
