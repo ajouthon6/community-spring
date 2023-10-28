@@ -36,5 +36,5 @@ public class TagService {
         List<String> tagNames = tags.stream().map(Tag::getTagName).collect(Collectors.toList());
         return new TagDto(tagNames);
     }
-    
+
 }
