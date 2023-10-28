@@ -52,9 +52,9 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public List<CommentDto> getComments(Long boardId) {
-        List<Comment> allComments = commentJpaRepository.findAll();
+        List<Comment> byBoardId = commentJpaRepository.findByBoardId(boardId);
 
-        return allComments.stream().map((comment) ->
+        return byBoardId.stream().map((comment) ->
                 createCommentDto(comment)
         ).collect(Collectors.toList());
     }
