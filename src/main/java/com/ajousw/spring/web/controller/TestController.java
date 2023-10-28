@@ -17,7 +17,7 @@ public class TestController {
 
     private final MemberService memberService;
 
-    @GetMapping("/")
+    @GetMapping("/userinfo")
     public MemberDto home(@AuthenticationPrincipal UserPrinciple user) {
         Member member = memberService.getMember(user.getEmail());
         return new MemberDto(member.getEmail(), member.getUsername(), member.getLoginType(), member.getCreatedDate());

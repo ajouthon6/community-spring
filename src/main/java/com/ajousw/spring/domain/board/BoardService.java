@@ -23,6 +23,7 @@ public class BoardService {
 
     private final BoardJpaRepository boardJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
+    private final BoardEntityMangerRepository boardEntityMangerRepository;
 
     public void createBoard(BoardCreateDto boardCreateDto) {
         Member foundMember = memberJpaRepository.findById(boardCreateDto.getMemberId())
@@ -78,6 +79,14 @@ public class BoardService {
                 );
 
         boardJpaRepository.delete(foundBoard);
+    }
+
+    public List<BoardDto> findBoardByTags(List<String> tags) {
+        List<Board> allBoards = boardEntityMangerRepository.findBoardsWithTags(tags);
+
+        return allBoards.stream().map((board) ->
+                createBoardDto(board)
+        ).collect(Collectors.toList());
     }
 
     private BoardDto createBoardDto(Board board) {

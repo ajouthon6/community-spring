@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -71,6 +72,21 @@ public class BoardController {
         BoardDto boardById = boardService.getBoardById(Long.valueOf(boardId));
 
         return new ApiResponseJson(HttpStatus.OK, boardById);
+    }
+
+    @GetMapping("/board/tags/{tags}")
+    public ApiResponseJson getBoardByTags(@PathVariable String tags) {
+        log.info("[GET-BY-TAG] tags={}", tags);
+
+        List<String> parsedTags = Arrays.stream(tags.split(",")).toList();
+
+        if (parsedTags.size() == 0) {
+            throw new IllegalArgumentException("태그 개수는 1개 이상이어야 합니다.");
+        }
+
+        List<BoardDto> boardByTags = boardService.findBoardByTags(parsedTags);
+
+        return new ApiResponseJson(HttpStatus.OK, boardByTags);
     }
 
     private boolean isNumber(String boardId) {
