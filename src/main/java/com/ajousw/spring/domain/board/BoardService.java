@@ -25,7 +25,7 @@ public class BoardService {
     private final MemberJpaRepository memberJpaRepository;
     private final BoardEntityMangerRepository boardEntityMangerRepository;
     private final CommentJpaRepository commentJpaRepository;
-    private TagService tagService;
+    private final TagService tagService;
 
     public void createBoard(BoardCreateDto boardCreateDto) {
         Member foundMember = memberJpaRepository.findById(boardCreateDto.getMemberId())
