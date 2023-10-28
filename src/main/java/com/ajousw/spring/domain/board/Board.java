@@ -9,12 +9,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-<<<<<<< HEAD
-import java.util.Date;
-=======
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
->>>>>>> main
+
 
 @Entity
 @Getter
