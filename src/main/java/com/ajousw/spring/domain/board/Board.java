@@ -34,7 +34,7 @@ public class Board extends BaseTimeEntity {
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
-    @Lob
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String body;
 
     @Column(length = 1000)
