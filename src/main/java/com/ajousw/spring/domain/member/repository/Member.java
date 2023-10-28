@@ -1,15 +1,14 @@
 package com.ajousw.spring.domain.member.repository;
 
+import com.ajousw.spring.domain.board.Board;
 import com.ajousw.spring.domain.member.enums.LoginType;
 import com.ajousw.spring.domain.member.enums.Role;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +26,9 @@ public class Member extends BaseTimeEntity {
 
     @Column(unique = true, length = 50)
     private String email;
+
+    @OneToMany(mappedBy = "board")
+    private List<Member> members = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
