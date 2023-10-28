@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,14 +33,20 @@ public class Board extends BaseTimeEntity {
     @Column(length = 1000)
     private String tag;
 
+    private Date dueDate;
+
+    private boolean isFinished;
+
     private Long viewCount;
 
     @Builder
-    public Board(Member member, String title, String body, String tag, Long viewCount) {
+    public Board(Member member, String title, String body, String tag, Date dueDate, Long viewCount) {
         this.member = member;
         this.title = title;
         this.body = body;
         this.tag = tag;
+        this.dueDate = dueDate;
+        this.isFinished = false;
         this.viewCount = viewCount;
     }
 
@@ -52,5 +60,9 @@ public class Board extends BaseTimeEntity {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public void setFinished(boolean isFinished) {
+        this.isFinished = isFinished;
     }
 }

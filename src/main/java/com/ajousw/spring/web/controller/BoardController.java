@@ -1,6 +1,7 @@
 package com.ajousw.spring.web.controller;
 
 import com.ajousw.spring.domain.board.BoardService;
+import com.ajousw.spring.domain.member.security.UserPrinciple;
 import com.ajousw.spring.web.controller.dto.BoardCreateDto;
 import com.ajousw.spring.web.controller.dto.BoardDeleteDto;
 import com.ajousw.spring.web.controller.dto.BoardDto;
@@ -10,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -33,19 +35,19 @@ public class BoardController {
     }
 
     @PostMapping("/board/update")
-    public ApiResponseJson updateBoard(@Valid @RequestBody BoardUpdateDto updateDto) {
+    public ApiResponseJson updateBoard(@Valid @RequestBody BoardUpdateDto updateDto, @AuthenticationPrincipal UserPrinciple user) {
         log.info("[UPDATE-BOARD] : {}", updateDto);
 
-        boardService.updateBoard(updateDto);
+        boardService.updateBoard(updateDto, user.getEmail());
 
         return new ApiResponseJson(HttpStatus.OK, "Update Success");
     }
 
     @PostMapping("/board/delete")
-    public ApiResponseJson deleteBoard(@Valid @RequestBody BoardDeleteDto deleteDto) {
+    public ApiResponseJson deleteBoard(@Valid @RequestBody BoardDeleteDto deleteDto, @AuthenticationPrincipal UserPrinciple user) {
         log.info("[DELETE-BOARD] : {}", deleteDto);
 
-        boardService.deleteBoard(deleteDto);
+        boardService.deleteBoard(deleteDto, user.getEmail());
 
         return new ApiResponseJson(HttpStatus.OK, "Delete Success");
     }

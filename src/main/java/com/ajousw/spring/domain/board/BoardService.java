@@ -48,8 +48,7 @@ public class BoardService {
     public List<BoardDto> getBoards() {
         List<Board> allBoards = boardJpaRepository.findAll();
 
-        return allBoards.stream().map((board) ->
-                createBoardDto(board)
+        return allBoards.stream().map(this::createBoardDto
         ).collect(Collectors.toList());
     }
 
@@ -61,9 +60,11 @@ public class BoardService {
     }
 
     // Update
-    public void updateBoard(BoardUpdateDto boardUpdateDto) {
+    public void updateBoard(BoardUpdateDto boardUpdateDto, String userEmail) {
         Board foundBoard = boardJpaRepository.findById(boardUpdateDto.getBoardId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 ID 입니다."));
+
+        isOwner(userEmail, foundBoard);
 
         String concatTag = String.join(",", boardUpdateDto.getTags());
 
@@ -73,10 +74,12 @@ public class BoardService {
     }
 
     // Delete
-    public void deleteBoard(BoardDeleteDto deleteDto) {
+    public void deleteBoard(BoardDeleteDto deleteDto, String userEmail) {
         Board foundBoard = boardJpaRepository.findById(deleteDto.getBoardId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 ID 입니다.")
                 );
+
+        isOwner(userEmail, foundBoard);
 
         boardJpaRepository.delete(foundBoard);
     }
@@ -96,5 +99,12 @@ public class BoardService {
                 board.getBody(),
                 Arrays.stream(board.getTag().split(",")).toList(),
                 board.getViewCount());
+    }
+
+    private void isOwner(String userEmail, Board foundBoard) {
+        String email = foundBoard.getMember().getEmail();
+        if (!email.equals(userEmail)) {
+            throw new IllegalArgumentException("게시글은 본인만 삭제할 수 있습니다.");
+        }
     }
 }
