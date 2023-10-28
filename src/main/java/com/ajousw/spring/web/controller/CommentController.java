@@ -2,10 +2,10 @@ package com.ajousw.spring.web.controller;
 
 import com.ajousw.spring.domain.comment.CommentService;
 import com.ajousw.spring.domain.member.security.UserPrinciple;
-import com.ajousw.spring.web.controller.dto.CommentCreateDto;
-import com.ajousw.spring.web.controller.dto.CommentDeleteDto;
-import com.ajousw.spring.web.controller.dto.CommentDto;
-import com.ajousw.spring.web.controller.dto.CommentUpdateDto;
+import com.ajousw.spring.web.controller.dto.comment.CommentCreateDto;
+import com.ajousw.spring.web.controller.dto.comment.CommentDeleteDto;
+import com.ajousw.spring.web.controller.dto.comment.CommentDto;
+import com.ajousw.spring.web.controller.dto.comment.CommentUpdateDto;
 import com.ajousw.spring.web.controller.json.ApiResponseJson;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

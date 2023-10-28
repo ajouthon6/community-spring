@@ -1,4 +1,4 @@
-package com.ajousw.spring.web.controller.dto;
+package com.ajousw.spring.web.controller.dto.board;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CommentDeleteDto {
-    private Long commentId;
+public class BoardFinishDto {
+    private Long boardId;
 }

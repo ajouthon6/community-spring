@@ -1,4 +1,4 @@
-package com.ajousw.spring.web.controller.dto;
+package com.ajousw.spring.web.controller.dto.board;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -24,4 +25,7 @@ public class BoardUpdateDto {
 
     @NotNull
     private List<String> tags = new ArrayList<>();
+
+    @NotNull
+    private Date dueDate;
 }

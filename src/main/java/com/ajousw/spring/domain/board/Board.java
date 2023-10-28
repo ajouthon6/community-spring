@@ -69,9 +69,17 @@ public class Board extends BaseTimeEntity {
         this.tag = tag;
     }
 
+    public void addViewCount() {
+        this.viewCount++;
+    }
+
     public void addComment(Comment comment) {
         comments.add(comment);
         comment.setBoard(this);
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 
     public void setFinished(boolean isFinished) {

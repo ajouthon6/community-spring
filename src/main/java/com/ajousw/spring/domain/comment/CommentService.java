@@ -4,10 +4,10 @@ import com.ajousw.spring.domain.board.Board;
 import com.ajousw.spring.domain.board.BoardJpaRepository;
 import com.ajousw.spring.domain.member.repository.Member;
 import com.ajousw.spring.domain.member.repository.MemberJpaRepository;
-import com.ajousw.spring.web.controller.dto.CommentCreateDto;
-import com.ajousw.spring.web.controller.dto.CommentDeleteDto;
-import com.ajousw.spring.web.controller.dto.CommentDto;
-import com.ajousw.spring.web.controller.dto.CommentUpdateDto;
+import com.ajousw.spring.web.controller.dto.comment.CommentCreateDto;
+import com.ajousw.spring.web.controller.dto.comment.CommentDeleteDto;
+import com.ajousw.spring.web.controller.dto.comment.CommentDto;
+import com.ajousw.spring.web.controller.dto.comment.CommentUpdateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -81,8 +81,10 @@ public class CommentService {
         Comment foundComment = commentJpaRepository.findById(deleteDto.getCommentId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글 ID 입니다."));
 
+
         String email = foundComment.getMember().getEmail();
         isOwner(userEmail, email);
+
 
         commentJpaRepository.delete(foundComment);
     }

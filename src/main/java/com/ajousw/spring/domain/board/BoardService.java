@@ -2,10 +2,7 @@ package com.ajousw.spring.domain.board;
 
 import com.ajousw.spring.domain.member.repository.Member;
 import com.ajousw.spring.domain.member.repository.MemberJpaRepository;
-import com.ajousw.spring.web.controller.dto.BoardCreateDto;
-import com.ajousw.spring.web.controller.dto.BoardDeleteDto;
-import com.ajousw.spring.web.controller.dto.BoardDto;
-import com.ajousw.spring.web.controller.dto.BoardUpdateDto;
+import com.ajousw.spring.web.controller.dto.board.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,6 +34,7 @@ public class BoardService {
                 .body(boardCreateDto.getBody())
                 .member(foundMember)
                 .tag(concatTag)
+                .dueDate(boardCreateDto.getDueDate())
                 .viewCount(0L)
                 .build();
 
@@ -56,6 +54,8 @@ public class BoardService {
         Board foundBoard = boardJpaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 ID 입니다."));
 
+        foundBoard.addViewCount();
+
         return createBoardDto(foundBoard);
     }
 
@@ -71,6 +71,7 @@ public class BoardService {
         foundBoard.setTitle(boardUpdateDto.getTitle());
         foundBoard.setBody(boardUpdateDto.getBody());
         foundBoard.setTag(concatTag);
+        foundBoard.setDueDate(boardUpdateDto.getDueDate());
     }
 
     // Delete
@@ -82,6 +83,16 @@ public class BoardService {
         isOwner(userEmail, foundBoard);
 
         boardJpaRepository.delete(foundBoard);
+    }
+
+    public void setBoardFinished(BoardFinishDto finishDto, String userEmail) {
+        Board foundBoard = boardJpaRepository.findById(finishDto.getBoardId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 ID 입니다.")
+                );
+
+        isOwner(userEmail, foundBoard);
+
+        foundBoard.setFinished(true);
     }
 
     public List<BoardDto> findBoardByTags(List<String> tags) {
@@ -98,13 +109,15 @@ public class BoardService {
                 board.getTitle(),
                 board.getBody(),
                 Arrays.stream(board.getTag().split(",")).toList(),
+                board.getDueDate(),
+                board.isFinished(),
                 board.getViewCount());
     }
 
     private void isOwner(String userEmail, Board foundBoard) {
         String email = foundBoard.getMember().getEmail();
         if (!email.equals(userEmail)) {
-            throw new IllegalArgumentException("게시글은 본인만 삭제할 수 있습니다.");
+            throw new IllegalArgumentException("게시글은 본인만 수정할 수 있습니다.");
         }
     }
 }

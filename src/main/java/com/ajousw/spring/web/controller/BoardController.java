@@ -2,10 +2,7 @@ package com.ajousw.spring.web.controller;
 
 import com.ajousw.spring.domain.board.BoardService;
 import com.ajousw.spring.domain.member.security.UserPrinciple;
-import com.ajousw.spring.web.controller.dto.BoardCreateDto;
-import com.ajousw.spring.web.controller.dto.BoardDeleteDto;
-import com.ajousw.spring.web.controller.dto.BoardDto;
-import com.ajousw.spring.web.controller.dto.BoardUpdateDto;
+import com.ajousw.spring.web.controller.dto.board.*;
 import com.ajousw.spring.web.controller.json.ApiResponseJson;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +40,15 @@ public class BoardController {
         return new ApiResponseJson(HttpStatus.OK, "Update Success");
     }
 
+    @PostMapping("/board/finish")
+    public ApiResponseJson finishBoard(@Valid @RequestBody BoardFinishDto finishDto, @AuthenticationPrincipal UserPrinciple user) {
+        log.info("[FINISH-BOARD] : {}", finishDto);
+
+        boardService.setBoardFinished(finishDto, user.getEmail());
+
+        return new ApiResponseJson(HttpStatus.OK, "Finish Success");
+    }
+
     @PostMapping("/board/delete")
     public ApiResponseJson deleteBoard(@Valid @RequestBody BoardDeleteDto deleteDto, @AuthenticationPrincipal UserPrinciple user) {
         log.info("[DELETE-BOARD] : {}", deleteDto);
@@ -63,7 +69,7 @@ public class BoardController {
         return new ApiResponseJson(HttpStatus.OK, boards);
     }
 
-    @GetMapping("/board/{boardId}")
+    @GetMapping("/board/find/{boardId}")
     public ApiResponseJson getBoardById(@PathVariable String boardId) {
         log.info("[GET-BOARD] id={}", boardId);
 
