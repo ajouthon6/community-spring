@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CommentUpdateDto {
+public class CommentDeleteDto {
     private Long commentId;
-    private String commentBody;
 }

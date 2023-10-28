@@ -1,5 +1,6 @@
 package com.ajousw.spring.domain.board;
 
+import com.ajousw.spring.domain.comment.Comment;
 import com.ajousw.spring.domain.member.repository.BaseTimeEntity;
 import com.ajousw.spring.domain.member.repository.Member;
 import jakarta.persistence.*;
@@ -7,6 +8,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,6 +28,9 @@ public class Board extends BaseTimeEntity {
 
     @Column(length = 255)
     private String title;
+
+    @OneToMany(mappedBy = "board")
+    private List<Comment> comments = new ArrayList<>();
 
     @Lob
     private String body;
@@ -52,5 +59,10 @@ public class Board extends BaseTimeEntity {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.setBoard(this);
     }
 }

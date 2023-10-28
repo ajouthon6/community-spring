@@ -2,6 +2,7 @@ package com.ajousw.spring.domain.comment;
 
 import com.ajousw.spring.domain.board.Board;
 import com.ajousw.spring.domain.member.repository.BaseTimeEntity;
+import com.ajousw.spring.domain.member.repository.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,21 +23,27 @@ public class Comment extends BaseTimeEntity {
     @Column(name = "comment_id")
     private Long id;
 
-    private Long memberId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
     @Builder
-    public Comment(String commentBody, Long id, Long memberId, Board board) {
+    public Comment(String commentBody, Long id, Member member, Board board) {
         this.commentBody = commentBody;
         this.id = id;
-        this.memberId = memberId;
+        this.member = member;
         this.board = board;
     }
 
     public void updateCommentBody(String newCommentBody) {
         this.commentBody = newCommentBody;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 }
