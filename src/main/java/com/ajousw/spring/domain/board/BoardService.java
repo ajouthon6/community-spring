@@ -1,5 +1,6 @@
 package com.ajousw.spring.domain.board;
 
+import com.ajousw.spring.domain.comment.CommentJpaRepository;
 import com.ajousw.spring.domain.member.repository.Member;
 import com.ajousw.spring.domain.member.repository.MemberJpaRepository;
 import com.ajousw.spring.web.controller.dto.board.*;
@@ -21,6 +22,7 @@ public class BoardService {
     private final BoardJpaRepository boardJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
     private final BoardEntityMangerRepository boardEntityMangerRepository;
+    private final CommentJpaRepository commentJpaRepository;
 
     public void createBoard(BoardCreateDto boardCreateDto) {
         Member foundMember = memberJpaRepository.findById(boardCreateDto.getMemberId())
@@ -82,6 +84,7 @@ public class BoardService {
 
         isOwner(userEmail, foundBoard);
 
+        commentJpaRepository.deleteAllByBoardId(foundBoard);
         boardJpaRepository.delete(foundBoard);
     }
 
