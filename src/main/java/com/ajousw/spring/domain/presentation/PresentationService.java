@@ -1,5 +1,6 @@
 package com.ajousw.spring.domain.presentation;
 
+import com.ajousw.spring.domain.member.repository.Member;
 import com.ajousw.spring.domain.member.repository.MemberJpaRepository;
 import com.ajousw.spring.web.controller.dto.presentation.PresentationDto;
 import lombok.RequiredArgsConstructor;
@@ -41,16 +42,21 @@ public class PresentationService {
         presentation.setBody(presentationBody);
     }
 
-    public PresentationDto getPresentation(String email) {
-        Optional<Presentation> optionalPresentation = presentationJpaRepository.findByEmail(email);
+    public PresentationDto getPresentation(Long userId) {
+        Optional<Presentation> optionalPresentation = presentationJpaRepository.findByOwnerId(userId);
+        Member member = memberJpaRepository.findById(userId).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않는 유저입니다.")
+        );
 
         Presentation presentation = null;
 
         if (optionalPresentation.isEmpty()) {
             presentation = Presentation.builder()
                     .body("")
-                    .email(email)
+                    .ownerId(member.getId())
+                    .email(member.getEmail())
                     .build();
+
             presentationJpaRepository.save(presentation);
         }
 
@@ -58,6 +64,6 @@ public class PresentationService {
             presentation = optionalPresentation.get();
         }
 
-        return new PresentationDto(presentation.getEmail(), presentation.getBody());
+        return new PresentationDto(presentation.getEmail(), member.getUsername(), presentation.getBody());
     }
 }

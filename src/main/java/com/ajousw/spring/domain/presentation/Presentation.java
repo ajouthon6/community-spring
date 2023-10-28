@@ -17,14 +17,16 @@ public class Presentation extends BaseTimeEntity {
     @Column(name = "presentation_id")
     private Long id;
 
-    @Column(unique = true)
+    private Long ownerId;
+    
     private String email;
 
     @Column(columnDefinition = "MEDIUMTEXT")
     private String body;
 
     @Builder
-    public Presentation(String email, String body) {
+    public Presentation(Long ownerId, String email, String body) {
+        this.ownerId = ownerId;
         this.email = email;
         this.body = body;
     }

@@ -37,11 +37,11 @@ public class PresentationController {
         return new ApiResponseJson(HttpStatus.OK, "OK");
     }
 
-    @GetMapping("/presentation/get/{email}")
-    public ApiResponseJson getPresentation(@PathVariable String email) {
+    @GetMapping("/presentation/get/{id}")
+    public ApiResponseJson getPresentation(@PathVariable Long id) {
         log.info("[GET-PRESENTATION]");
 
-        PresentationDto presentationDto = presentationService.getPresentation(email);
+        PresentationDto presentationDto = presentationService.getPresentation(id);
 
         return new ApiResponseJson(HttpStatus.OK, presentationDto);
     }

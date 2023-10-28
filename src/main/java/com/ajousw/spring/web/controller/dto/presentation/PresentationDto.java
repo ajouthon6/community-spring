@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PresentationDto {
     String email;
-
+    String username;
     String body;
 }

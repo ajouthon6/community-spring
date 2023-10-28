@@ -9,5 +9,7 @@ public interface PresentationJpaRepository extends JpaRepository<Presentation, L
     boolean existsByEmail(String email);
 
     Optional<Presentation> findByEmail(String email);
-    
+
+    Optional<Presentation> findByOwnerId(Long ownerId);
+
 }
